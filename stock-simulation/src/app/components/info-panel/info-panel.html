@@ -1,0 +1,102 @@
+<div class="info-panel">
+  <h3>資産状況</h3>
+
+  <div class="info-grid">
+    <div class="info-item">
+      <span class="label">現在日付:</span>
+      <span class="value">{{ state.currentDate | date: 'yyyy/MM/dd' }}</span>
+    </div>
+
+    <div class="info-item">
+      <span class="label">経過日数:</span>
+      <span class="value">{{ state.currentDay + 1 }} / {{ config.period }} 日</span>
+    </div>
+
+    <div class="info-item">
+      <span class="label">現在価格:</span>
+      <span class="value">¥{{ currentPrice.toLocaleString() }}</span>
+    </div>
+
+    <div class="info-item">
+      <span class="label">現金残高:</span>
+      <span class="value">¥{{ state.cash.toLocaleString() }}</span>
+    </div>
+
+    <div class="info-item">
+      <span class="label">保有株数:</span>
+      <span class="value">{{ totalHoldings.toLocaleString() }} 株</span>
+    </div>
+
+    <div class="info-item">
+      <span class="label">評価額:</span>
+      <span class="value">¥{{ portfolioValue.toLocaleString() }}</span>
+    </div>
+
+    <div class="info-item">
+      <span class="label">総資産:</span>
+      <span class="value highlight">¥{{ totalAssets.toLocaleString() }}</span>
+    </div>
+
+    <div class="info-item">
+      <span class="label">損益:</span>
+      <span class="value" [class.profit]="profitLoss > 0" [class.loss]="profitLoss < 0">
+        ¥{{ profitLoss.toLocaleString() }}
+        ({{ profitLossRate > 0 ? '+' : '' }}{{ profitLossRate.toFixed(2) }}%)
+      </span>
+    </div>
+
+    <div class="info-item">
+      <span class="label">ポジション数:</span>
+      <span class="value">{{ state.positions.length }}</span>
+    </div>
+
+    <div class="info-item">
+      <span class="label">決済済取引:</span>
+      <span class="value">{{ state.closedPositions.length }}</span>
+    </div>
+  </div>
+
+  <!-- ポジション明細 -->
+  <div class="position-details" *ngIf="recentPositions.length > 0">
+    <h4>ポジション明細（直近5件）</h4>
+    <div class="position-list">
+      <div class="position-item" *ngFor="let detail of recentPositions">
+        <div class="position-header">
+          <span class="position-label">{{ detail.position.label }}</span>
+          <span class="position-type"
+                [class.long]="detail.position.type === PositionType.LONG"
+                [class.short]="detail.position.type === PositionType.SHORT">
+            {{ detail.position.type === PositionType.LONG ? 'ロング' : 'ショート' }}
+          </span>
+        </div>
+        <div class="position-info">
+          <div class="position-row">
+            <span class="label">取得日:</span>
+            <span class="value">{{ detail.position.entryDate | date: 'yyyy/MM/dd' }}</span>
+          </div>
+          <div class="position-row">
+            <span class="label">取得単価:</span>
+            <span class="value">¥{{ detail.position.entryPrice.toLocaleString() }}</span>
+          </div>
+          <div class="position-row">
+            <span class="label">数量:</span>
+            <span class="value">{{ detail.position.quantity.toLocaleString() }}株</span>
+          </div>
+          <div class="position-row">
+            <span class="label">評価額:</span>
+            <span class="value">¥{{ detail.currentValue.toLocaleString() }}</span>
+          </div>
+          <div class="position-row">
+            <span class="label">損益:</span>
+            <span class="value"
+                  [class.profit]="detail.profitLoss > 0"
+                  [class.loss]="detail.profitLoss < 0">
+              {{ detail.profitLoss > 0 ? '+' : '' }}¥{{ detail.profitLoss.toLocaleString() }}
+              ({{ detail.profitLossRate > 0 ? '+' : '' }}{{ detail.profitLossRate.toFixed(2) }}%)
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

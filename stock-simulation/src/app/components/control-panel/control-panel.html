@@ -1,0 +1,65 @@
+<div class="control-panel">
+  <h3>操作</h3>
+
+  <div class="control-section">
+    <label>売買単位金額: ¥{{ tradeAmount.toLocaleString() }}</label>
+    <button class="setting-button" (click)="openTradeAmountDialog()">変更</button>
+  </div>
+
+  <!-- 買い・売り・何もしないを横並びに -->
+  <div class="trading-controls">
+    <!-- 買いセクション -->
+    <div class="trading-section">
+      <label>買い:</label>
+      <select [(ngModel)]="selectedBuyOption">
+        <option value="new">新規購入</option>
+        <option value="all" *ngIf="shortPositions.length > 0">全て買戻</option>
+        <option *ngFor="let pos of shortPositions" [value]="pos.id">
+          {{ pos.label }} (¥{{ pos.entryPrice.toLocaleString() }})
+        </option>
+      </select>
+      <button class="buy-button" (click)="onBuyClick()">買い</button>
+    </div>
+
+    <!-- 売りセクション -->
+    <div class="trading-section">
+      <label>売り:</label>
+      <select [(ngModel)]="selectedSellOption">
+        <option value="new">新規売却</option>
+        <option value="all" *ngIf="longPositions.length > 0">全て売戻</option>
+        <option *ngFor="let pos of longPositions" [value]="pos.id">
+          {{ pos.label }} (¥{{ pos.entryPrice.toLocaleString() }})
+        </option>
+      </select>
+      <button class="sell-button" (click)="onSellClick()">売り</button>
+    </div>
+
+    <!-- 次の日へ進むセクション -->
+    <div class="trading-section">
+      <label>&nbsp;</label>
+      <button class="skip-button" (click)="onNextDayClick()">次の日へ進む</button>
+    </div>
+  </div>
+
+  <div class="control-section">
+    <div class="button-group">
+      <button class="finish-button" (click)="onFinishClick()">終了</button>
+      <button class="back-button" (click)="onGoBackClick()">戻る</button>
+    </div>
+  </div>
+
+  <!-- 売買単位金額設定ダイアログ -->
+  <div class="modal" *ngIf="showTradeAmountDialog" (click)="closeTradeAmountDialog()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <h4>売買単位金額設定</h4>
+      <div class="form-group">
+        <label>金額 (円):</label>
+        <input type="number" [(ngModel)]="newTradeAmount" min="1000" step="10000">
+      </div>
+      <div class="modal-buttons">
+        <button class="cancel-button" (click)="closeTradeAmountDialog()">キャンセル</button>
+        <button class="save-button" (click)="saveTradeAmount()">保存</button>
+      </div>
+    </div>
+  </div>
+</div>

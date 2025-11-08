@@ -1,0 +1,87 @@
+<div class="simulation-container">
+  <h1>株式投資シミュレーション - {{ config.symbol }}</h1>
+
+  <!-- 通知メッセージ -->
+  <div class="notification" *ngIf="showNotification">
+    {{ notificationMessage }}
+  </div>
+
+  <div class="simulation-grid">
+    <!-- 左側エリア: チャート -->
+    <div class="left-area">
+      <!-- 移動平均チャート -->
+      <div class="chart-container">
+        <app-moving-average-chart
+          [chartData]="chartData"
+          [trades]="state.trades">
+        </app-moving-average-chart>
+      </div>
+
+      <!-- RSIチャート -->
+      <div class="chart-container">
+        <app-rsi-chart
+          [chartData]="chartData">
+        </app-rsi-chart>
+      </div>
+    </div>
+
+    <!-- 中央エリア: 売買履歴 -->
+    <div class="center-area">
+      <div class="history-container">
+        <app-trade-history
+          [trades]="state.trades"
+          [chartData]="chartData"
+          [currentDate]="state.currentDate"
+          [currentPrice]="currentPrice">
+        </app-trade-history>
+      </div>
+
+      <!-- 相殺決済ポイント -->
+      <div class="offset-container">
+        <app-offset-points
+          [positions]="state.positions"
+          [currentPrice]="currentPrice"
+          (settlePositions)="onSettlePositions($event)">
+        </app-offset-points>
+      </div>
+
+      <!-- 散布図 -->
+      <div class="scatter-container">
+        <app-scatter-plot
+          [trades]="state.trades"
+          [positions]="state.positions"
+          [currentPrice]="currentPrice"
+          [maxPositions]="config.maxPositions">
+        </app-scatter-plot>
+      </div>
+    </div>
+
+    <!-- 右側エリア -->
+    <div class="right-area">
+      <!-- 情報表示パネル -->
+      <div class="info-container">
+        <app-info-panel
+          [config]="config"
+          [state]="state"
+          [currentPrice]="currentPrice"
+          [portfolioValue]="portfolioValue">
+        </app-info-panel>
+      </div>
+
+      <!-- 操作パネル -->
+      <div class="control-container">
+        <app-control-panel
+          [longPositions]="getLongPositions()"
+          [shortPositions]="getShortPositions()"
+          [tradeAmount]="config.tradeAmount"
+          (buy)="onBuy($event)"
+          (sell)="onSell($event)"
+          (nextDay)="onNextDay()"
+          (updateTradeAmount)="onUpdateTradeAmount($event)"
+          (finish)="onFinish()"
+          (goBack)="onGoBack()">
+        </app-control-panel>
+      </div>
+    </div>
+  </div>
+</div>

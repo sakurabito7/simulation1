@@ -1,0 +1,77 @@
+<div class="result-container">
+  <h1>シミュレーション結果</h1>
+
+  <div class="result-content">
+    <section class="metrics-section">
+      <h2>投資成績</h2>
+
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-label">勝率</div>
+          <div class="metric-value">{{ metrics.winRate.toFixed(2) }}%</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">利益率</div>
+          <div class="metric-value" [class.profit]="metrics.profitRate > 0" [class.loss]="metrics.profitRate < 0">
+            {{ metrics.profitRate > 0 ? '+' : '' }}{{ metrics.profitRate.toFixed(2) }}%
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">期待値</div>
+          <div class="metric-value">¥{{ metrics.expectedValue.toFixed(0) | number }}</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">最大ドローダウン</div>
+          <div class="metric-value loss">¥{{ metrics.maxDrawdown.toFixed(0) | number }}</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">総取引回数</div>
+          <div class="metric-value">{{ metrics.totalTrades }}</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">勝ち / 負け</div>
+          <div class="metric-value">{{ metrics.winTrades }} / {{ metrics.loseTrades }}</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">平均利益</div>
+          <div class="metric-value profit">¥{{ metrics.avgProfit.toFixed(0) | number }}</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">平均損失</div>
+          <div class="metric-value loss">¥{{ metrics.avgLoss.toFixed(0) | number }}</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">プロフィットファクター</div>
+          <div class="metric-value">{{ metrics.profitFactor.toFixed(2) }}</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">総利益</div>
+          <div class="metric-value profit">¥{{ metrics.totalProfit.toFixed(0) | number }}</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">総損失</div>
+          <div class="metric-value loss">¥{{ metrics.totalLoss.toFixed(0) | number }}</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="actions-section">
+      <button class="export-button" (click)="exportTradeHistory()">
+        売買履歴をエクスポート
+      </button>
+      <button class="restart-button" (click)="restart()">
+        新しいシミュレーション
+      </button>
+    </section>
+  </div>
+</div>

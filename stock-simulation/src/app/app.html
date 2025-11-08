@@ -1,0 +1,23 @@
+<div class="app-container">
+  <!-- 開始設定画面 -->
+  <app-start-config
+    *ngIf="currentScreen === AppScreen.START_CONFIG"
+    [existingConfig]="simulationConfig"
+    (startSimulation)="onStartSimulation($event)">
+  </app-start-config>
+
+  <!-- シミュレーション画面 -->
+  <app-simulation
+    *ngIf="currentScreen === AppScreen.SIMULATION && simulationConfig"
+    [config]="simulationConfig"
+    (simulationComplete)="onSimulationComplete($event)"
+    (backToStart)="onBackToStart()">
+  </app-simulation>
+
+  <!-- 結果画面 -->
+  <app-result
+    *ngIf="currentScreen === AppScreen.RESULT && simulationConfig && simulationState"
+    [config]="simulationConfig"
+    [state]="simulationState">
+  </app-result>
+</div>

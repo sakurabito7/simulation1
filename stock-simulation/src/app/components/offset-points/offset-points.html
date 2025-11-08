@@ -1,0 +1,24 @@
+<div class="offset-points">
+  <h3>相殺決済ポイント（損益分岐点）</h3>
+  <p class="description">複数ポジションを同時決済したときに損益が0になる株価</p>
+
+  <div *ngIf="offsetPoints.length === 0" class="no-data">
+    相殺決済可能な組み合わせはありません
+  </div>
+
+  <div *ngIf="offsetPoints.length > 0" class="offset-list">
+    <div class="offset-item" *ngFor="let point of offsetPoints" (click)="onOffsetPointClick(point)">
+      <span class="positions">
+        <span *ngFor="let label of point.labels; let i = index">
+          <span [class]="getLabelClass(label)">{{ label }}</span><span *ngIf="i < point.labels.length - 1">, </span>
+        </span>
+      </span>
+      <span class="price-info">
+        <span class="offset-price">¥{{ point.offsetPrice.toLocaleString('ja-JP', {minimumFractionDigits: 0, maximumFractionDigits: 2}) }}</span>
+        <span class="price-diff" [ngClass]="getDifferenceClass(getPriceDifference(point.offsetPrice))">
+          ({{ getPriceDifference(point.offsetPrice) > 0 ? '+' : '' }}¥{{ Math.abs(getPriceDifference(point.offsetPrice)).toLocaleString('ja-JP', {minimumFractionDigits: 0, maximumFractionDigits: 0}) }})
+        </span>
+      </span>
+    </div>
+  </div>
+</div>

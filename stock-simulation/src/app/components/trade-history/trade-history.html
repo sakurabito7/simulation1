@@ -1,0 +1,58 @@
+<div class="trade-history">
+  <h3>売買履歴</h3>
+
+  <div class="current-info">
+    <div class="info-row">
+      <span class="label">現在日付:</span>
+      <span class="value">{{ currentDate | date: 'yyyy/MM/dd' }}</span>
+    </div>
+    <div class="info-row">
+      <span class="label">現在終値:</span>
+      <span class="value">¥{{ currentPrice.toLocaleString() }}</span>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>日付</th>
+          <th>終値</th>
+          <th>売買</th>
+          <th>数量</th>
+          <th>ラベル</th>
+          <th>損益</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let record of displayRecords; let i = index" [class.has-trade]="record.trade">
+          <td>{{ i + 1 }}</td>
+          <td>{{ record.date | date: 'yyyy/MM/dd' }}</td>
+          <td>¥{{ record.close.toLocaleString() }}</td>
+          <td>
+            <span *ngIf="record.trade" class="action-badge"
+                  [class.buy]="record.trade.action === TradeAction.BUY"
+                  [class.sell]="record.trade.action === TradeAction.SELL">
+              {{ record.trade.action === TradeAction.BUY ? '買い' : '売り' }}
+            </span>
+            <span *ngIf="!record.trade" class="no-action">-</span>
+          </td>
+          <td>{{ record.trade ? record.trade.quantity : '-' }}</td>
+          <td>{{ record.trade ? record.trade.label : '-' }}</td>
+          <td>
+            <span *ngIf="record.trade && record.profitLoss !== undefined"
+                  [class.profit]="record.profitLoss > 0"
+                  [class.loss]="record.profitLoss < 0">
+              {{ record.profitLoss > 0 ? '+' : '' }}¥{{ record.profitLoss.toLocaleString() }}
+            </span>
+            <span *ngIf="!record.trade || record.profitLoss === undefined">-</span>
+          </td>
+        </tr>
+        <tr *ngIf="displayRecords.length === 0">
+          <td colspan="7" class="no-data">履歴がありません</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

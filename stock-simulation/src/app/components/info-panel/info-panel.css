@@ -1,0 +1,139 @@
+.info-panel {
+  height: 100%;
+}
+
+h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  color: #333;
+  border-bottom: 2px solid #4CAF50;
+  padding-bottom: 5px;
+  font-size: 16px;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 8px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+}
+
+.label {
+  font-weight: bold;
+  color: #666;
+  font-size: 12px;
+}
+
+.value {
+  color: #333;
+  font-size: 12px;
+}
+
+.value.highlight {
+  font-size: 14px;
+  font-weight: bold;
+  color: #2196F3;
+}
+
+.value.profit {
+  color: #1976D2;
+  font-weight: bold;
+}
+
+.value.loss {
+  color: #D32F2F;
+  font-weight: bold;
+}
+
+/* ポジション明細 */
+.position-details {
+  margin-top: 12px;
+  border-top: 1px solid #ddd;
+  padding-top: 8px;
+}
+
+.position-details h4 {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  color: #333;
+  font-weight: bold;
+}
+
+.position-list {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  min-width: calc(180px * 5 + 8px * 4);
+}
+
+.position-item {
+  flex: 0 0 auto;
+  width: 180px;
+  padding: 8px;
+  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+}
+
+.position-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #ddd;
+}
+
+.position-label {
+  font-weight: bold;
+  font-size: 13px;
+  color: #333;
+}
+
+.position-type {
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.position-type.long {
+  background-color: #2196F3;
+  color: white;
+}
+
+.position-type.short {
+  background-color: #f44336;
+  color: white;
+}
+
+.position-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.position-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+}
+
+.position-row .label {
+  color: #666;
+  font-size: 11px;
+}
+
+.position-row .value {
+  color: #333;
+  font-size: 11px;
+}

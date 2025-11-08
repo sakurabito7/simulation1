@@ -1,0 +1,231 @@
+.control-panel {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #333;
+  border-bottom: 2px solid #4CAF50;
+  padding-bottom: 5px;
+  font-size: 16px;
+}
+
+.control-section {
+  margin-bottom: 10px;
+}
+
+.control-section label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+  font-size: 13px;
+}
+
+.control-section select {
+  width: 100%;
+  padding: 6px;
+  margin-bottom: 6px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.control-section button {
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+/* 買い・売り・何もしないを横並びに */
+.trading-controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.trading-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.trading-section label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+  font-size: 13px;
+  min-height: 18px;
+}
+
+.trading-section select {
+  width: 100%;
+  padding: 6px;
+  margin-bottom: 6px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.trading-section button {
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: auto;
+}
+
+.buy-button {
+  background-color: #2196F3;
+  color: white;
+}
+
+.buy-button:hover {
+  background-color: #0b7dda;
+}
+
+.sell-button {
+  background-color: #f44336;
+  color: white;
+}
+
+.sell-button:hover {
+  background-color: #da190b;
+}
+
+.skip-button {
+  background-color: #9E9E9E;
+  color: white;
+}
+
+.skip-button:hover {
+  background-color: #757575;
+}
+
+.setting-button {
+  width: 100%;
+  background-color: #FF9800;
+  color: white;
+}
+
+.setting-button:hover {
+  background-color: #F57C00;
+}
+
+/* ���빿�� */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  min-width: 300px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content h4 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.modal-buttons button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.cancel-button {
+  background-color: #9E9E9E;
+  color: white;
+}
+
+.cancel-button:hover {
+  background-color: #757575;
+}
+
+.save-button {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.save-button:hover {
+  background-color: #45a049;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+}
+
+.finish-button {
+  flex: 1;
+  background-color: #FF9800;
+  color: white;
+}
+
+.finish-button:hover {
+  background-color: #F57C00;
+}
+
+.back-button {
+  flex: 1;
+  background-color: #607D8B;
+  color: white;
+}
+
+.back-button:hover {
+  background-color: #455A64;
+}

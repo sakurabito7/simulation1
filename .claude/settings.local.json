@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ng new:*)",
+      "Bash(npm install:*)",
+      "Bash(ng generate:*)",
+      "Bash(npm run build)",
+      "Bash(dir:*)",
+      "WebSearch",
+      "Bash(npm view:*)",
+      "WebFetch(domain:www.npmjs.com)",
+      "Bash(find:*)",
+      "Bash(ng serve:*)",
+      "Bash(npx tsc --noEmit)",
+      "Bash(cat:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
