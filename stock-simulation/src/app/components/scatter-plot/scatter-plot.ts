@@ -190,57 +190,101 @@ export class ScatterPlot implements OnInit, OnChanges, AfterViewInit {
     console.log('[ScatterPlot] Current price:', this.currentPrice);
     console.log('[ScatterPlot] Max positions:', this.maxPositions);
 
-    const longPoints: any[] = [];
-    const shortPoints: any[] = [];
-    const longLabels: string[] = [];
-    const shortLabels: string[] = [];
+    const longPointsNormal: any[] = [];
+    const longPointsWithBorder: any[] = [];
+    const shortPointsNormal: any[] = [];
+    const shortPointsWithBorder: any[] = [];
+    const longLabelsNormal: string[] = [];
+    const longLabelsWithBorder: string[] = [];
+    const shortLabelsNormal: string[] = [];
+    const shortLabelsWithBorder: string[] = [];
 
     console.log('[ScatterPlot] Processing', this.positions.length, 'positions');
 
     // 現在のポジションを横軸の順番にプロット
     this.positions.forEach((position, index) => {
       const point = { x: index + 1, y: position.entryPrice };
+
+      // 現在価格との差異を計算（±3%以上かどうか）
+      const priceDiff = Math.abs(position.entryPrice - this.currentPrice) / this.currentPrice;
+      const needsBorder = priceDiff >= 0.03;
+
       console.log(`[ScatterPlot] Position[${index}]:`, {
         id: position.id,
         type: position.type === PositionType.LONG ? 'LONG' : 'SHORT',
         label: position.label,
         entryPrice: position.entryPrice,
+        currentPrice: this.currentPrice,
+        priceDiff: (priceDiff * 100).toFixed(2) + '%',
+        needsBorder: needsBorder,
         point: point
       });
 
       if (position.type === PositionType.LONG) {
-        longPoints.push(point);
-        longLabels.push(position.label);
+        if (needsBorder) {
+          longPointsWithBorder.push(point);
+          longLabelsWithBorder.push(position.label);
+        } else {
+          longPointsNormal.push(point);
+          longLabelsNormal.push(position.label);
+        }
       } else {
-        shortPoints.push(point);
-        shortLabels.push(position.label);
+        if (needsBorder) {
+          shortPointsWithBorder.push(point);
+          shortLabelsWithBorder.push(position.label);
+        } else {
+          shortPointsNormal.push(point);
+          shortLabelsNormal.push(position.label);
+        }
       }
     });
 
-    console.log('[ScatterPlot] Long points:', longPoints.length, longPoints);
-    console.log('[ScatterPlot] Short points:', shortPoints.length, shortPoints);
+    console.log('[ScatterPlot] Long points (normal):', longPointsNormal.length, longPointsNormal);
+    console.log('[ScatterPlot] Long points (with border):', longPointsWithBorder.length, longPointsWithBorder);
+    console.log('[ScatterPlot] Short points (normal):', shortPointsNormal.length, shortPointsNormal);
+    console.log('[ScatterPlot] Short points (with border):', shortPointsWithBorder.length, shortPointsWithBorder);
 
     this.scatterChartData = {
       datasets: [
         {
           label: 'ロング（買い）',
-          data: longPoints,
+          data: longPointsNormal,
           backgroundColor: 'rgba(54, 162, 235, 0.9)',
           borderColor: 'rgba(54, 162, 235, 1)',
           borderWidth: 2,
           pointRadius: 12,
           pointHoverRadius: 16,
-          labels: longLabels
+          labels: longLabelsNormal
+        } as any,
+        {
+          label: 'ロング（買い・±3%以上）',
+          data: longPointsWithBorder,
+          backgroundColor: 'rgba(54, 162, 235, 0.9)',
+          borderColor: 'rgba(255, 193, 7, 1)',
+          borderWidth: 4,
+          pointRadius: 12,
+          pointHoverRadius: 16,
+          labels: longLabelsWithBorder
         } as any,
         {
           label: 'ショート（売り）',
-          data: shortPoints,
+          data: shortPointsNormal,
           backgroundColor: 'rgba(255, 99, 132, 0.9)',
           borderColor: 'rgba(255, 99, 132, 1)',
           borderWidth: 2,
           pointRadius: 12,
           pointHoverRadius: 16,
-          labels: shortLabels
+          labels: shortLabelsNormal
+        } as any,
+        {
+          label: 'ショート（売り・±3%以上）',
+          data: shortPointsWithBorder,
+          backgroundColor: 'rgba(255, 99, 132, 0.9)',
+          borderColor: 'rgba(255, 193, 7, 1)',
+          borderWidth: 4,
+          pointRadius: 12,
+          pointHoverRadius: 16,
+          labels: shortLabelsWithBorder
         } as any
       ]
     };

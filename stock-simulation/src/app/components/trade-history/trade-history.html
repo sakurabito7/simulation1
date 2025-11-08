@@ -26,10 +26,18 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let record of displayRecords; let i = index" [class.has-trade]="record.trade">
+        <tr *ngFor="let record of displayRecords; let i = index" [class.has-trade]="record.trade" [class.latest]="i === 0">
           <td>{{ i + 1 }}</td>
-          <td>{{ record.date | date: 'yyyy/MM/dd' }}</td>
-          <td>¥{{ record.close.toLocaleString() }}</td>
+          <td [class.latest-date]="i === 0">{{ record.date | date: 'yyyy/MM/dd' }}</td>
+          <td>
+            ¥{{ record.close.toLocaleString() }}
+            <span *ngIf="record.direction === 'up' && record.consecutiveDays > 0" class="trend trend-up">
+              ▲{{ record.consecutiveDays }}
+            </span>
+            <span *ngIf="record.direction === 'down' && record.consecutiveDays > 0" class="trend trend-down">
+              ▼{{ record.consecutiveDays }}
+            </span>
+          </td>
           <td>
             <span *ngIf="record.trade" class="action-badge"
                   [class.buy]="record.trade.action === TradeAction.BUY"

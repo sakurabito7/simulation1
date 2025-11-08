@@ -41,6 +41,7 @@ export class Simulation implements OnInit {
 
   // チャート表示用の定数
   private readonly CHART_DISPLAY_DAYS = 90; // 3ヶ月分（約90日）
+  private readonly PRELOAD_DAYS = 390; // 移動平均300日 + 表示期間90日
   private preloadDays = 0; // 実際にプリロードされた日数
 
   state: SimulationState = {
@@ -78,11 +79,12 @@ export class Simulation implements OnInit {
       // CSVファイルを読み込み
       this.allStockData = await this.stockDataService.loadStockDataFromCSV(this.config.csvFile!);
 
-      // チャート表示用に3ヶ月前からデータを取得
+      // チャート表示用にプリロード期間を含めてデータを取得
+      // 300日移動平均 + 表示期間90日 = 390日前からデータを取得
       this.simulationData = this.stockDataService.getDataWithPreload(
         this.config.startDate,
         this.config.period,
-        this.CHART_DISPLAY_DAYS
+        this.PRELOAD_DAYS
       );
 
       if (this.simulationData.length === 0) {
@@ -94,7 +96,7 @@ export class Simulation implements OnInit {
       const startIndex = this.allStockData.findIndex(
         d => d.date >= this.config.startDate
       );
-      this.preloadDays = Math.min(startIndex, this.CHART_DISPLAY_DAYS);
+      this.preloadDays = Math.min(startIndex, this.PRELOAD_DAYS);
 
       // シミュレーション開始日のデータ（プリロード分を考慮）
       const simulationStartIndex = this.preloadDays;

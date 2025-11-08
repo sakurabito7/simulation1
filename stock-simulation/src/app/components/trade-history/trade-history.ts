@@ -75,8 +75,55 @@ export class TradeHistory implements OnChanges {
     // 日付降順（最新が上）にソート
     tempRecords.sort((a, b) => b.date.getTime() - a.date.getTime());
 
+    // 連続上げ下げ日数を計算
+    this.calculateConsecutiveDays(tempRecords);
+
     // 最大90日分に制限
     this.displayRecords = tempRecords.slice(0, 90);
+  }
+
+  // 連続上げ下げ日数を計算
+  private calculateConsecutiveDays(records: any[]): void {
+    if (records.length === 0) return;
+
+    for (let i = 0; i < records.length; i++) {
+      let consecutiveDays = 0;
+      let direction: 'up' | 'down' | 'none' = 'none';
+
+      if (i < records.length - 1) {
+        const currentClose = records[i].close;
+        const previousClose = records[i + 1].close;
+
+        if (currentClose > previousClose) {
+          direction = 'up';
+          consecutiveDays = 1;
+
+          // 過去に遡って連続上げ日数をカウント
+          for (let j = i + 1; j < records.length - 1; j++) {
+            if (records[j].close > records[j + 1].close) {
+              consecutiveDays++;
+            } else {
+              break;
+            }
+          }
+        } else if (currentClose < previousClose) {
+          direction = 'down';
+          consecutiveDays = 1;
+
+          // 過去に遡って連続下げ日数をカウント
+          for (let j = i + 1; j < records.length - 1; j++) {
+            if (records[j].close < records[j + 1].close) {
+              consecutiveDays++;
+            } else {
+              break;
+            }
+          }
+        }
+      }
+
+      records[i].consecutiveDays = consecutiveDays;
+      records[i].direction = direction;
+    }
   }
 
   private isSameDay(date1: Date, date2: Date): boolean {

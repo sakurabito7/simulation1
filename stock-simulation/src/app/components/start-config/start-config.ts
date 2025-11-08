@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SimulationConfig } from '../../models/simulation-config.model';
 import { STOCK_DATA_CONFIG } from '../../config/app.config.constants';
+import { StockData } from '../../services/stock-data';
 
 interface Company {
   code: string;
@@ -87,9 +88,9 @@ export class StartConfig {
   config: SimulationConfig = {
     symbol: '',
     startDate: new Date(),
-    period: 100,
+    period: 365,
     initialCash: 1000000,
-    tradeAmount: 100000,
+    tradeAmount: 200000,
     maxPositions: 5
   };
 
@@ -98,6 +99,8 @@ export class StartConfig {
   startDateStr: string = '';
   csvDataLoaded: boolean = false;
   csvDataInfo: string = '';
+
+  constructor(private stockDataService: StockData) {}
 
   ngOnInit() {
     // 会社マスターデータを生成
@@ -122,6 +125,11 @@ export class StartConfig {
       // 開始年月日の初期値を2014/1/1に設定
       this.startDateStr = '2014-01-01';
     }
+  }
+
+  // 初期資金変更時に取引金額を自動更新
+  onInitialCashChange() {
+    this.config.tradeAmount = Math.floor(this.config.initialCash / 5);
   }
 
   async onCompanyChange() {
@@ -156,6 +164,9 @@ export class StartConfig {
       const lines = csvText.split('\n').filter(line => line.trim());
       this.csvDataInfo = `${lines.length - 1}件のデータを読み込みました`;
       this.csvDataLoaded = true;
+
+      // 開始日を2018年以前でランダムに設定
+      await this.setRandomStartDate(this.selectedFile);
 
     } catch (error) {
       console.error('CSV読み込みエラー:', error);
@@ -195,6 +206,42 @@ export class StartConfig {
     this.config.startDate = new Date(this.startDateStr);
     this.config.csvFile = this.selectedFile;
 
+    // 取引金額を初期資金の1/5に設定（明示的に変更されていない場合）
+    if (this.config.tradeAmount === 200000 || this.config.tradeAmount === this.config.initialCash / 5) {
+      this.config.tradeAmount = Math.floor(this.config.initialCash / 5);
+    }
+
     this.startSimulation.emit(this.config);
+  }
+
+  // 開始日を2018年以前でランダムに設定
+  async setRandomStartDate(file: File): Promise<void> {
+    try {
+      // ファイルからデータを読み込む
+      const stockData = await this.stockDataService.loadStockDataFromCSV(file);
+
+      if (stockData.length === 0) {
+        // データがない場合のデフォルト
+        this.startDateStr = '2022-01-01';
+        return;
+      }
+
+      // 2018年以前のデータを抽出
+      const before2018 = stockData.filter(data => data.date.getFullYear() < 2018);
+
+      if (before2018.length > 0) {
+        // 2018年以前のデータからランダムに選択
+        const randomIndex = Math.floor(Math.random() * before2018.length);
+        const randomDate = before2018[randomIndex].date;
+        this.startDateStr = randomDate.toISOString().split('T')[0];
+      } else {
+        // 2018年以前のデータがない場合は2022/1/1
+        this.startDateStr = '2022-01-01';
+      }
+
+    } catch (error) {
+      console.error('開始日設定エラー:', error);
+      this.startDateStr = '2022-01-01';
+    }
   }
 }

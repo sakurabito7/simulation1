@@ -14,7 +14,9 @@ export interface ChartData {
   low: number;
   close: number;
   ma5?: number;
-  ma25?: number;
-  ma75?: number;
+  ma20?: number;
+  ma60?: number;
+  ma100?: number;
+  ma300?: number;
   rsi?: number;
 }

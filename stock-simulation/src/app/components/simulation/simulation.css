@@ -44,7 +44,7 @@ h1 {
 
 .simulation-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-columns: 2fr minmax(400px, 1fr) minmax(932px, 1fr);
   gap: 10px;
   flex: 1;
   min-height: 0;

@@ -139,3 +139,23 @@ td:last-child {
   color: #f44336;
   font-weight: bold;
 }
+
+/* 最新日付のボールド表示 */
+.latest-date {
+  font-weight: bold;
+}
+
+/* 連続上げ下げ日数の表示 */
+.trend {
+  margin-left: 6px;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.trend-up {
+  color: #1976D2;
+}
+
+.trend-down {
+  color: #D32F2F;
+}

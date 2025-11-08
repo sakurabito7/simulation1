@@ -60,8 +60,10 @@ export class MovingAverageChart implements OnChanges {
     // 終値データ
     const closeData = this.chartData.map(d => d.close);
     const ma5Data = this.chartData.map(d => d.ma5 ?? null);
-    const ma25Data = this.chartData.map(d => d.ma25 ?? null);
-    const ma75Data = this.chartData.map(d => d.ma75 ?? null);
+    const ma20Data = this.chartData.map(d => d.ma20 ?? null);
+    const ma60Data = this.chartData.map(d => d.ma60 ?? null);
+    const ma100Data = this.chartData.map(d => d.ma100 ?? null);
+    const ma300Data = this.chartData.map(d => d.ma300 ?? null);
 
     this.lineChartData = {
       labels: labels,
@@ -86,8 +88,8 @@ export class MovingAverageChart implements OnChanges {
           spanGaps: true
         },
         {
-          data: ma25Data,
-          label: 'MA25',
+          data: ma20Data,
+          label: 'MA20',
           borderColor: 'rgba(54, 162, 235, 1)',
           backgroundColor: 'rgba(54, 162, 235, 0.1)',
           borderWidth: 1.5,
@@ -96,10 +98,30 @@ export class MovingAverageChart implements OnChanges {
           spanGaps: true
         },
         {
-          data: ma75Data,
-          label: 'MA75',
+          data: ma60Data,
+          label: 'MA60',
           borderColor: 'rgba(75, 192, 192, 1)',
           backgroundColor: 'rgba(75, 192, 192, 0.1)',
+          borderWidth: 1.5,
+          pointRadius: 0,
+          fill: false,
+          spanGaps: true
+        },
+        {
+          data: ma100Data,
+          label: 'MA100',
+          borderColor: 'rgba(153, 102, 255, 1)',
+          backgroundColor: 'rgba(153, 102, 255, 0.1)',
+          borderWidth: 1.5,
+          pointRadius: 0,
+          fill: false,
+          spanGaps: true
+        },
+        {
+          data: ma300Data,
+          label: 'MA300',
+          borderColor: 'rgba(255, 159, 64, 1)',
+          backgroundColor: 'rgba(255, 159, 64, 0.1)',
           borderWidth: 1.5,
           pointRadius: 0,
           fill: false,

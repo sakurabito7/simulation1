@@ -88,8 +88,10 @@ export class Calculation {
   generateChartData(stockData: StockData[]): ChartData[] {
     const closes = stockData.map(d => d.close);
     const ma5 = this.calculateMovingAverage(closes, 5);
-    const ma25 = this.calculateMovingAverage(closes, 25);
-    const ma75 = this.calculateMovingAverage(closes, 75);
+    const ma20 = this.calculateMovingAverage(closes, 20);
+    const ma60 = this.calculateMovingAverage(closes, 60);
+    const ma100 = this.calculateMovingAverage(closes, 100);
+    const ma300 = this.calculateMovingAverage(closes, 300);
     const rsi = this.calculateRSI(closes, 14);
 
     return stockData.map((data, index) => ({
@@ -99,8 +101,10 @@ export class Calculation {
       low: data.low,
       close: data.close,
       ma5: ma5[index],
-      ma25: ma25[index],
-      ma75: ma75[index],
+      ma20: ma20[index],
+      ma60: ma60[index],
+      ma100: ma100[index],
+      ma300: ma300[index],
       rsi: rsi[index]
     }));
   }

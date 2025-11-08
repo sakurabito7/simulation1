@@ -1,12 +1,7 @@
 <div class="control-panel">
   <h3>操作</h3>
 
-  <div class="control-section">
-    <label>売買単位金額: ¥{{ tradeAmount.toLocaleString() }}</label>
-    <button class="setting-button" (click)="openTradeAmountDialog()">変更</button>
-  </div>
-
-  <!-- 買い・売り・何もしないを横並びに -->
+  <!-- 買い・売りを横並びに -->
   <div class="trading-controls">
     <!-- 買いセクション -->
     <div class="trading-section">
@@ -33,12 +28,17 @@
       </select>
       <button class="sell-button" (click)="onSellClick()">売り</button>
     </div>
+  </div>
 
-    <!-- 次の日へ進むセクション -->
-    <div class="trading-section">
-      <label>&nbsp;</label>
-      <button class="skip-button" (click)="onNextDayClick()">次の日へ進む</button>
-    </div>
+  <!-- 次の日へ進むボタン（大きく2行分） -->
+  <div class="next-day-section">
+    <button class="skip-button" (click)="onNextDayClick()">次の日へ進む</button>
+  </div>
+
+  <!-- 売買単位金額変更（小さく） -->
+  <div class="trade-amount-section">
+    <span class="trade-amount-label">売買単位: ¥{{ tradeAmount.toLocaleString() }}</span>
+    <button class="setting-button-small" (click)="openTradeAmountDialog()">変更</button>
   </div>
 
   <div class="control-section">
